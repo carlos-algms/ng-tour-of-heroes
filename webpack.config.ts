@@ -1,11 +1,5 @@
 // All base configuration items. This file is combined with the appropriate target build config file (dev, prod, etc.)
-import * as webpack from 'webpack';
-import * as path from 'path';
-import { AotPlugin } from '@ngtools/webpack';
-import * as HtmlWebpackPlugin from 'html-webpack-plugin';
-import * as CompressionPlugin from 'compression-webpack-plugin';
-import * as ExtractTextPlugin from 'extract-text-webpack-plugin';
-// import autoprefixer from 'autoprefixer';
+import { Configuration } from 'webpack';
 
 const {
   ContextReplacementPlugin,
@@ -13,14 +7,21 @@ const {
     CommonsChunkPlugin,
     UglifyJsPlugin
   }
-} = webpack;
+} = require('webpack');
+const path = require('path');
+const { AotPlugin } = require('@ngtools/webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const autoprefixer = require('autoprefixer');
+
 
 // As this is the common configuration portion, it will be consumed and merged with the actual dev & prod config files.
 // Each of those files will pass the environment configuration object (env) into this file.
 // We'll default the env parameter to an empty object to prevent errors accessing it in case it's undefined.
 module.exports = (env: any = {}) => {
   // We will create a common configuration object and return it
-  const config: webpack.Configuration  = {
+  const config: Configuration  = {
 
     // Each entry point described below represents a block of references.
     // Each reference represents the head of a different dependency chain (main.ts is the custom application entry point).
@@ -100,6 +101,14 @@ module.exports = (env: any = {}) => {
           use: ExtractTextPlugin.extract({
             use: [
               { loader: 'css-loader' },
+              {
+                loader: 'postcss-loader',
+                options: {
+                  plugins: () => ([
+                    autoprefixer
+                  ])
+                }
+              },
               { loader: 'sass-loader'}
             ],
             // use style-loader in development
