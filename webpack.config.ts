@@ -28,8 +28,9 @@ module.exports = (env: any = {}) => {
     // Blocks are given priority below so that references are not duplicated.
     // Each block is output as a seperate js file and inserted into the DOM as a <script> tag.
     entry: {
-      'polyfills': './src/polyfills.ts',
-      'app': './src/main.ts'
+      polyfills: './src/polyfills.ts',
+      vendor: './src/vendor.ts',
+      app: './src/main.ts'
     },
 
     plugins: [
@@ -42,9 +43,18 @@ module.exports = (env: any = {}) => {
         path.resolve(__dirname, '../src')
       ),
 
+      // The entry blocks specified in the name property below are given a priority (right to left).
+      // Dependencies found in multiple blocks will be assigned based on the priority below.
+      // Example: @angular/core will be found in both the vendor.ts & multiple app files,
+      // but the order specified below indicates that it will be bundled into the vendor.js file.
+      new CommonsChunkPlugin({
+        name: ['app', 'vendor', 'polyfills']
+      } as any),
+
       // Specifies which html file to insert the final bundled file references.
       new HtmlWebpackPlugin({
-        template: 'src/index.html'
+        template: 'src/index.html',
+        favicon: 'src/favicon.ico',
       }),
 
       new ExtractTextPlugin({
@@ -57,7 +67,7 @@ module.exports = (env: any = {}) => {
 
     // Specifies which file types to analyze, in order of process (right to left).
     resolve: {
-      extensions: ['.ts', '.min.js', '.js']
+      extensions: ['.ts', '.js']
     },
 
     module: {
@@ -84,8 +94,15 @@ module.exports = (env: any = {}) => {
         },
 
         {
-          test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
-          use: [{ loader: 'file-loader' }]
+          test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/i,
+          use: [
+            {
+              loader: 'file-loader',
+              options: {
+                name: '[path][name]-[hash].[ext]'
+              }
+            }
+          ]
         },
 
         // {
@@ -97,19 +114,31 @@ module.exports = (env: any = {}) => {
         // },
 
         {
-          test: /\.scss$/,
+          test: /\.s[ac]ss$/,
+          exclude: /node_modules/,
           use: ExtractTextPlugin.extract({
             use: [
-              { loader: 'css-loader' },
+              {
+                loader: 'css-loader',
+                options: {
+                  sourceMap: true
+                }
+              },
               {
                 loader: 'postcss-loader',
                 options: {
+                  sourceMap: true,
                   plugins: () => ([
                     autoprefixer
                   ])
                 }
               },
-              { loader: 'sass-loader'}
+              {
+                loader: 'sass-loader',
+                options: {
+                  sourceMap: true
+                }
+              }
             ],
             // use style-loader in development
             fallback: 'style-loader'
@@ -138,14 +167,6 @@ module.exports = (env: any = {}) => {
         tsConfigPath: 'tsconfig.json',
         entryModule: path.resolve(__dirname, './src/app/app.module#AppModule')
       }),
-
-      // The entry blocks specified in the name property below are given a priority (right to left).
-      // Dependencies found in multiple blocks will be assigned based on the priority below.
-      // Example: @angular/core will be found in both the vendor.ts & multiple app files,
-      // but the order specified below indicates that it will be bundled into the vendor.js file.
-      new CommonsChunkPlugin({
-        name: ['app', 'polyfills']
-      } as any),
 
       // The production build will minify and mangle the source code.
       new UglifyJsPlugin({
