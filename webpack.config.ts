@@ -58,7 +58,7 @@ module.exports = (env: any = {}) => {
       }),
 
       new ExtractTextPlugin({
-        filename: '[name]-[hash].css'
+        filename: '[name]-[contenthash].css'
       })
 
       // Uncomment this to display a chunk analysis page at the end of the build process.
@@ -94,7 +94,20 @@ module.exports = (env: any = {}) => {
         },
 
         {
-          test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/i,
+          test: /.*font-awesome.*\.(svg|woff2?|ttf|eot|ico)(\?v=\d+\.\d+\.\d+)?$/i,
+          use: [
+            {
+              loader: 'file-loader',
+              options: {
+                name: '[name]-[hash].[ext]',
+                outputPath: 'assets/font-awesome/'
+              }
+            }
+          ]
+        },
+
+        {
+          test: /\.(png|jpe?g|gif)$/i,
           use: [
             {
               loader: 'file-loader',
@@ -105,13 +118,13 @@ module.exports = (env: any = {}) => {
           ]
         },
 
-        // {
-        //   test: /\.css$/,
-        //   use: ExtractTextPlugin.extract({
-        //     fallback: 'style-loader',
-        //     use: 'css-loader'
-        //   })
-        // },
+        {
+          test: /\.css$/,
+          use: ExtractTextPlugin.extract({
+            fallback: 'style-loader',
+            use: 'css-loader'
+          })
+        },
 
         {
           test: /\.s[ac]ss$/,
@@ -132,6 +145,9 @@ module.exports = (env: any = {}) => {
                     autoprefixer
                   ])
                 }
+              },
+              {
+                loader: 'resolve-url-loader'
               },
               {
                 loader: 'sass-loader',
