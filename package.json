@@ -1,16 +1,16 @@
 {
-  "name": "ng-rank-your-list",
+  "name": "ng-tour-of-heroes",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
     "start": "webpack-dev-server --config=webpack.config.ts --progress --profile --colors --inline --hot --open --port 8080",
-    "ng": "ng",
-    "ng-start": "ng serve",
-    "prebuild": "rimraf ./dist",
     "build": "webpack --config=webpack.config.ts --progress --profile --colors",
+    "prebuild": "rimraf ./dist",
     "ng-build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
+    "ng": "ng",
+    "ng-start": "ng serve",
     "e2e": "ng e2e"
   },
   "private": true,

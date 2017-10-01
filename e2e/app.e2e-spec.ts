@@ -1,6 +1,6 @@
 import { AppPage } from './app.po';
 
-describe('ng-rank-your-list App', () => {
+describe('ng-tour-of-heroes App', () => {
   let page: AppPage;
 
   beforeEach(() => {
