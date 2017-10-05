@@ -1,0 +1,16 @@
+<div class="form-group">
+  <label for="{{ inputId }}">{{ inputLabel }}</label>
+
+  <input
+    formInputBase
+    type="{{ inputType }}"
+    class="form-control"
+    id="{{ inputId }}"
+    ([ngModel])="this[inputModel]"
+    placeholder="{{ inputPlaceholder }}"
+  />
+
+  <span>{{ this[inputModel] }}</span>
+
+  <small *ngIf="inputHelpText" class="form-text text-muted">{{ inputHelpText }}</small>
+</div>

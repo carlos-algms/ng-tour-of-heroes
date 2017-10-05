@@ -1,3 +1,18 @@
-<p>
-  create-hero works!
-</p>
+<app-form #appForm>
+  <div>
+    <p>
+      {{ appForm.form | json }}
+    </p>
+    <h1>Create a hero!</h1>
+
+    <img src="../../../assets/unknow-hero.jpg" alt="unknow hero" />
+
+    <form-input
+      [form]="appForm.form"
+      inputId="heroName"
+      inputLabel="Hero Name"
+      inputModel="heroName"
+    ></form-input>
+  </div>
+</app-form>
+

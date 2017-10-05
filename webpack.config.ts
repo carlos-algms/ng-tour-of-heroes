@@ -112,7 +112,8 @@ module.exports = (env: any = {}) => {
             {
               loader: 'file-loader',
               options: {
-                name: '[path][name]-[hash].[ext]'
+                name: '[path][name]-[hash].[ext]',
+                context: 'src/'
               }
             }
           ]
