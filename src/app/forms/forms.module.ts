@@ -5,6 +5,7 @@ import { FormGroupDirective, ReactiveFormsModule } from '@angular/forms';
 import { FormInputComponent } from './form-input/form-input.component';
 import { AppFormComponent } from './app-form/app-form.component';
 import { FormInputBaseDirective } from './form-input/form-input-base.directive';
+import { FormContentsDirective } from './app-form/form-contents.directive';
 
 
 @NgModule({
@@ -15,13 +16,15 @@ import { FormInputBaseDirective } from './form-input/form-input-base.directive';
   declarations: [
     FormInputComponent,
     AppFormComponent,
-    FormInputBaseDirective
+    FormInputBaseDirective,
+    FormContentsDirective
   ],
   exports: [
     FormInputComponent,
     FormGroupDirective,
     AppFormComponent,
-    FormInputBaseDirective
+    FormInputBaseDirective,
+    FormContentsDirective
   ]
 })
 export class AppFormsModule { }

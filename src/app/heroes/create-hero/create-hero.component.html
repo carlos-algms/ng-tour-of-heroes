@@ -1,18 +1,15 @@
-<app-form #appForm>
-  <div>
-    <p>
-      {{ appForm.form | json }}
-    </p>
-    <h1>Create a hero!</h1>
+<app-form #form>
+  <h1>Create a hero!</h1>
 
-    <img src="../../../assets/unknow-hero.jpg" alt="unknow hero" />
+  <img src="../../../assets/unknow-hero.jpg" alt="unknow hero" />
 
-    <form-input
-      [form]="appForm.form"
-      inputId="heroName"
-      inputLabel="Hero Name"
-      inputModel="heroName"
-    ></form-input>
-  </div>
+  <form-input
+    [formGroup]="form.formGroup"
+    inputId="heroName"
+    inputLabel="Hero Name"
+    inputName="heroName"
+    inputPlaceholder="Ex: Bombasta"
+    inputHelpText="Type an awesome hero name"
+  ></form-input>
 </app-form>
 

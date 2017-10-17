@@ -1,34 +1,15 @@
-import { Component, ContentChildren, AfterContentInit, Output, QueryList, } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { FormInputBaseDirective } from '../form-input/form-input-base.directive';
+import { AfterContentInit, Component, Output, } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-form',
-  templateUrl: './app-form.component.html'
+  templateUrl: './app-form.component.html',
 })
-export class AppFormComponent implements AfterContentInit  {
+export class AppFormComponent {
 
-  @ContentChildren(FormInputBaseDirective) inputs: QueryList<FormInputBaseDirective>;
-  @Output() public form: FormGroup;
+  @Output() public formGroup: FormGroup;
 
-  ngAfterContentInit() {
-    // this.form = this.toFormGroup([]);
-    this.form = new FormGroup({});
-    this.inputs.map(i => console.log(i));
+  constructor(private fb: FormBuilder) {
+    this.formGroup = this.fb.group({});
   }
-
-  toFormGroup(fields: any[] = [] ) {
-    const group: any = {};
-
-    fields.forEach(field => {
-      if (field.required) {
-        group[field.key] = new FormControl(field.value || '', Validators.required);
-      } else {
-        group[field.key] = new FormControl(field.value || '');
-      }
-    });
-
-    return new FormGroup(group);
-  }
-
 }

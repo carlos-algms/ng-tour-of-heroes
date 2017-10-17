@@ -1,4 +1,4 @@
-<div class="form-group">
+<div class="form-group" [formGroup]="formGroup">
   <label for="{{ inputId }}">{{ inputLabel }}</label>
 
   <input
@@ -6,11 +6,9 @@
     type="{{ inputType }}"
     class="form-control"
     id="{{ inputId }}"
-    ([ngModel])="this[inputModel]"
+    formControlName="{{ inputName }}"
     placeholder="{{ inputPlaceholder }}"
   />
-
-  <span>{{ this[inputModel] }}</span>
 
   <small *ngIf="inputHelpText" class="form-text text-muted">{{ inputHelpText }}</small>
 </div>
